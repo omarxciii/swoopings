@@ -105,7 +105,11 @@ export default function LoginPage() {
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-primary mb-2">Swoopings</h1>
+          <img 
+            src="/swoopings-logo-lightmode3x.png" 
+            alt="Swoopings" 
+            className="h-12 w-auto mx-auto mb-4"
+          />
           <p className="text-brand-primary">Sign in to your account</p>
         </div>
 
