@@ -1,40 +1,22 @@
-# Netlify Configuration
+# Netlify Configuration for Next.js
 # 
 # File Purpose:
 # - Configures Next.js deployment on Netlify
-# - Handles serverless functions, redirects, and build settings
+# - Uses Essential Next.js plugin for proper Next.js support
 # 
-# Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
+# Documentation: https://docs.netlify.com/integrations/frameworks/next-js/
 
 [build]
 # Build command to create optimized production bundle
 command = "npm run build"
 
-# Directory with build output that Netlify serves
+# Directory with build output - Next.js puts output here
 publish = ".next"
 
-# Function directory for Netlify Functions (if using them later)
-functions = "netlify/functions"
-
 [build.environment]
-# Enable Node.js version pinning
-NODE_VERSION = "18.17.0"
+# Node.js version
+NODE_VERSION = "20"
 
-[[redirects]]
-# Redirect all requests to Next.js for proper routing
-from = "/*"
-to = "/index.html"
-status = 200
-
-[[headers]]
-# Cache static assets aggressively
-for = "/_next/static/*"
-[headers.values]
-  # Cache Next.js assets for 1 year (they have content hashes)
-  static-cache-control = "public, max-age=31536000, immutable"
-
-[[headers]]
-# Don't cache HTML files (they need to refresh frequently)
-for = "/*.html"
-[headers.values]
-  cache-control = "public, max-age=0, must-revalidate"
+# Use the Essential Next.js plugin for proper Next.js deployment
+[[plugins]]
+package = "@netlify/plugin-nextjs"
