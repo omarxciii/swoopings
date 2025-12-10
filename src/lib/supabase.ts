@@ -30,9 +30,6 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
 /**
  * Lazy-initialize Supabase client
  * This ensures the client is only created in the browser/runtime,
@@ -51,9 +48,13 @@ export const supabase = (() => {
     };
   }
   
-  // Client-side: create the real client
+  // Client-side: create the real client (access env vars at runtime)
   if (!supabaseInstance) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
     if (!supabaseUrl || !supabaseAnonKey) {
+      console.error('Missing Supabase environment variables:', { supabaseUrl, supabaseAnonKey });
       throw new Error('Missing Supabase environment variables');
     }
     supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
