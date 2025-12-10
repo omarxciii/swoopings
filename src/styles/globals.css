@@ -1,0 +1,62 @@
+/**
+ * Global Styles
+ * 
+ * This file contains global Tailwind CSS imports and any application-wide styles.
+ * Tailwind's directives handle base utilities, components, and custom classes.
+ * 
+ * Dependencies:
+ * - tailwindcss - CSS utility framework
+ * 
+ * History:
+ * - Created during initial project setup
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styling for HTML elements */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+  }
+
+  h1 {
+    @apply text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl font-bold;
+  }
+
+  button {
+    @apply transition-all duration-200;
+  }
+}
+
+/* Component-level utilities */
+@layer components {
+  .btn-primary {
+    @apply bg-brand-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-secondary hover:text-brand-primary disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-300;
+  }
+
+  .input-base {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+  }
+}
