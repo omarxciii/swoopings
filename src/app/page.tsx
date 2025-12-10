@@ -37,14 +37,14 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-white py-20">
+      <section className="bg-gradient-to-r from-brand-primary to-brand-primary text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <img 
             src="/swoopings-logo-darkmode3x.png" 
             alt="Swoopings" 
             className="h-16 w-auto mx-auto mb-6"
           />
-          <h1 className="text-4xl font-bold mb-6">Welcome to Swoopings</h1>
+          <h1 className="text-4xl font-bold mb-6 text-brand-secondary">Welcome to Swoopings</h1>
           <p className="text-xl mb-8 opacity-90">
             Rent items from your neighbors. Share what you own. Join the community.
           </p>
@@ -61,7 +61,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-brand-primary"
+                  className="btn-secondary border-2 bg-brand-accent text-brand-primary hover:bg-brand-primary hover:text-brand-accent"
                 >
                   Browse Listings
                 </Link>

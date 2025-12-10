@@ -220,7 +220,7 @@ export default function DateRangePicker({
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Dates</h3>
 
       {/* Legend */}
-      <div className="mb-4 p-3 bg-brand-secondary border border-brand-tertiary rounded text-sm">
+      <div className="mb-4 p-3 bg-brand-neutralgreen border border-brand-tertiary rounded text-sm">
         <p className="font-medium text-brand-primary mb-2">Calendar Legend:</p>
         <div className="space-y-1 text-brand-primary">
           <div className="flex items-center gap-2">

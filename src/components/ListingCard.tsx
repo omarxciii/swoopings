@@ -73,7 +73,7 @@ export default function ListingCard({
           )}
 
           {/* Price Badge */}
-          <div className="absolute top-3 right-3 bg-brand-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-3 right-3 bg-brand-secondary text-brand-primary px-3 py-1 rounded-full text-sm font-semibold">
             {formatPrice(listing.price_per_day)}/day
           </div>
 
