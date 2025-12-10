@@ -1,12 +1,10 @@
-/**
- * Netlify Configuration
- * 
- * File Purpose:
- * - Configures Next.js deployment on Netlify
- * - Handles serverless functions, redirects, and build settings
- * 
- * Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
- */
+# Netlify Configuration
+# 
+# File Purpose:
+# - Configures Next.js deployment on Netlify
+# - Handles serverless functions, redirects, and build settings
+# 
+# Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
 # Build command to create optimized production bundle
