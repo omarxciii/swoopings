@@ -30,6 +30,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16',
 });
@@ -37,13 +39,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 // This should match your Stripe dashboard webhook secret
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
-// Initialize Supabase client with service role (for webhook processing)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
 export async function POST(request: NextRequest) {
   try {
+    // Initialize Supabase client inside function for runtime env vars
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
     const body = await request.text();
     const signature = request.headers.get('stripe-signature') || '';
 
@@ -63,20 +65,20 @@ export async function POST(request: NextRequest) {
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        await handlePaymentSucceeded(paymentIntent);
+        await handlePaymentSucceeded(paymentIntent, supabase);
         break;
       }
 
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        await handlePaymentFailed(paymentIntent);
+        await handlePaymentFailed(paymentIntent, supabase);
         break;
       }
 
       case 'charge.refunded': {
         const charge = event.data.object as Stripe.Charge;
         if (charge.payment_intent) {
-          await handleRefund(charge.payment_intent as string);
+          await handleRefund(charge.payment_intent as string, supabase);
         }
         break;
       }
@@ -99,7 +101,7 @@ export async function POST(request: NextRequest) {
  * Handle successful payment
  * Update booking status to 'confirmed'
  */
-async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
+async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent, supabase: any) {
   try {
     const paymentIntentId = paymentIntent.id;
 
@@ -139,7 +141,7 @@ async function handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent) {
  * Handle failed payment
  * Log failure and potentially send notification
  */
-async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
+async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent, supabase: any) {
   try {
     const paymentIntentId = paymentIntent.id;
     const lastError = paymentIntent.last_payment_error;
@@ -176,7 +178,7 @@ async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
  * Handle refund
  * Update booking status and notify parties
  */
-async function handleRefund(paymentIntentId: string) {
+async function handleRefund(paymentIntentId: string, supabase: any) {
   try {
     // Find and update booking with this payment_intent_id
     const { data: bookings, error } = await supabase
