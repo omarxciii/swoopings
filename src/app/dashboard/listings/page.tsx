@@ -157,8 +157,8 @@ export default function DashboardListingsPage() {
             </div>
             <Link
               href="/listings/create"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium
-                hover:bg-blue-700 transition-colors whitespace-nowrap"
+              className="px-6 py-2 bg-brand-primary text-white rounded-lg font-medium
+                hover:bg-brand-tertiary transition-colors whitespace-nowrap"
             >
               Create Listing
             </Link>
@@ -196,14 +196,14 @@ export default function DashboardListingsPage() {
 
           {/* Empty State */}
           {!isLoading && !error && listings.length === 0 && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-12 text-center">
-              <p className="text-blue-900 font-medium text-lg">No listings yet</p>
-              <p className="text-blue-700 text-sm mt-2">
+            <div className="bg-brand-secondary border border-brand-tertiary rounded-lg p-12 text-center">
+              <p className="text-brand-primary font-medium text-lg">No listings yet</p>
+              <p className="text-brand-primary text-sm mt-2">
                 Create your first listing to start earning
               </p>
               <Link
                 href="/listings/create"
-                className="inline-block mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium
+                className="inline-block mt-4 px-6 py-2 bg-brand-primary text-white rounded-lg font-medium
                   hover:bg-blue-700 transition-colors"
               >
                 Create First Listing

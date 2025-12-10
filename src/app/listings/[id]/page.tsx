@@ -289,7 +289,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
         {/* Back Button */}
         <Link
           href="/listings"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 font-medium"
+          className="inline-flex items-center gap-2 text-brand-primary hover:text-brand-tertiary mb-6 font-medium"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -353,7 +353,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">{listing.title}</h1>
               <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-blue-600">
+                <span className="text-4xl font-bold text-brand-primary">
                   {formatPrice(listing.price_per_day)}
                 </span>
                 <span className="text-gray-600">per day</span>
@@ -456,8 +456,8 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
                     <button
                       onClick={handleBookingClick}
                       disabled={isBooking}
-                      className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold
-                        hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="w-full px-6 py-3 bg-brand-primary text-white rounded-lg font-semibold
+                        hover:bg-brand-tertiary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       {isBooking ? 'Processing...' : `Book Now - $${(totalPrice).toFixed(2)}`}
                     </button>
@@ -468,8 +468,8 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold
-                    hover:bg-blue-700 transition-colors"
+                  className="inline-block px-6 py-3 bg-brand-primary text-white rounded-lg font-semibold
+                    hover:bg-brand-tertiary transition-colors"
                 >
                   Sign in to book
                 </Link>
@@ -515,7 +515,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
                 </li>
                 <li className="flex gap-2">
                   <span className="flex-shrink-0">✓</span>
-                  <span>Communicate through YeahRent&apos;s messaging system</span>
+                  <span>Communicate through Swoopings&apos; messaging system</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="flex-shrink-0">✓</span>
@@ -541,7 +541,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
                   onClick={() => setCurrentImageIndex(index)}
                   className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                     index === currentImageIndex
-                      ? 'border-blue-600'
+                      ? 'border-brand-primary'
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
                   aria-label={`View image ${index + 1}`}

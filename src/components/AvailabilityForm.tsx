@@ -88,8 +88,8 @@ export default function AvailabilityForm({
         </label>
 
         {/* Explanation */}
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
-          <p className="text-xs text-blue-700">
+        <div className="mb-4 p-3 bg-brand-secondary border border-brand-tertiary rounded-md">
+          <p className="text-xs text-brand-primary">
             💡 <strong>How this works:</strong> Renters can only <em>start</em> rentals on selected days. 
             They can return the item on any day. For example, if you select only Friday, renters can pick up Friday and keep the item as long as they want.
           </p>
@@ -101,8 +101,8 @@ export default function AvailabilityForm({
             type="button"
             onClick={handleSelectAll}
             disabled={disabled || isAllSelected}
-            className="px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-md
-              hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-3 py-1 text-xs font-medium text-brand-primary bg-brand-secondary rounded-md
+              hover:bg-brand-tertiary hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Select All
           </button>
@@ -129,7 +129,7 @@ export default function AvailabilityForm({
                 checked={selected.includes(day.value)}
                 onChange={() => handleToggle(day.value)}
                 disabled={disabled}
-                className="w-4 h-4 text-blue-600 rounded border-gray-300
+                className="w-4 h-4 text-brand-primary rounded border-gray-300
                   cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <span className={`text-sm ${disabled ? 'text-gray-400' : 'text-gray-700'}`}>
@@ -150,8 +150,8 @@ export default function AvailabilityForm({
 
         {/* Summary */}
         {!isNoneSelected && (
-          <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
-            <p className="text-xs text-blue-700">
+          <div className="mt-3 p-3 bg-brand-secondary border border-brand-tertiary rounded-md">
+            <p className="text-xs text-brand-primary">
               Available: {selected.map((d) => DAYS_OF_WEEK[d].label).join(', ')}
             </p>
           </div>

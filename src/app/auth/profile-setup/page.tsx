@@ -185,8 +185,8 @@ export default function ProfileSetupPage() {
         </form>
 
         {/* Info Note */}
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-900">
+        <div className="mt-6 p-4 bg-brand-secondary border border-brand-tertiary rounded-lg">
+          <p className="text-sm text-brand-primary">
             💡 You can edit your profile anytime from your dashboard.
           </p>
         </div>

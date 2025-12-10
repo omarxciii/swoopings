@@ -113,8 +113,8 @@ export default function MessageInput({
       <button
         onClick={handleSend}
         disabled={isDisabled}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium
-          hover:bg-blue-700 transition-colors flex items-center gap-2
+        className="px-4 py-2 bg-brand-primary text-white rounded-lg font-medium
+          hover:bg-brand-tertiary transition-colors flex items-center gap-2
           disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap
           h-fit"
         title="Send message (Ctrl+Enter)"

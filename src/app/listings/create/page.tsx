@@ -457,8 +457,8 @@ export default function CreateListingPage() {
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700
-                  hover:file:bg-blue-100
+                  file:bg-brand-secondary file:text-brand-primary
+                  hover:file:bg-brand-tertiary hover:file:text-white
                   disabled:opacity-50 disabled:cursor-not-allowed"
               />
 

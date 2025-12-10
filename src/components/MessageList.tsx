@@ -137,7 +137,7 @@ export default function MessageList({
                 className={`px-4 py-2 rounded-lg max-w-xs lg:max-w-md xl:max-w-lg break-words
                   ${
                     isOwnMessage
-                      ? 'bg-blue-600 text-white rounded-br-none'
+                      ? 'bg-brand-primary text-white rounded-br-none'
                       : 'bg-white text-gray-900 border border-gray-200 rounded-bl-none'
                   }
                 `}

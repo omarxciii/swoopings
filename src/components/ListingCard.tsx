@@ -73,7 +73,7 @@ export default function ListingCard({
           )}
 
           {/* Price Badge */}
-          <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-3 right-3 bg-brand-accent text-white px-3 py-1 rounded-full text-sm font-semibold">
             {formatPrice(listing.price_per_day)}/day
           </div>
 
@@ -89,7 +89,7 @@ export default function ListingCard({
         <div className="p-4 space-y-3">
           {/* Title */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+            <h3 className="text-lg font-semibold text-brand-primary line-clamp-2 group-hover:text-brand-tertiary transition-colors">
               {listing.title}
             </h3>
           </div>

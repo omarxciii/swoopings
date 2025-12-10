@@ -118,8 +118,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="text-2xl font-bold text-brand-primary">YeahRent</div>
+          <Link href="/" className="flex items-center">
+            <div className="text-2xl font-bold text-brand-primary">Swoopings</div>
           </Link>
 
           {/* Center Navigation (only for authenticated users) */}
@@ -204,7 +204,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-blue-600"
+                  className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-brand-tertiary"
                 >
                   Sign Up
                 </Link>

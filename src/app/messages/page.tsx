@@ -89,7 +89,7 @@ export default function MessagesPage() {
             {isLoading && conversations.length === 0 ? (
               <div className="flex items-center justify-center h-64">
                 <div className="text-center">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-3"></div>
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-primary mb-3"></div>
                   <p className="text-gray-600">Loading conversations...</p>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function MessagesPage() {
             <div className="border-t border-gray-200 p-4 text-center">
               <button
                 onClick={() => setPage(prev => prev + 1)}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                className="text-brand-primary hover:text-brand-tertiary text-sm font-medium"
               >
                 Load more conversations
               </button>

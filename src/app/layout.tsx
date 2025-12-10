@@ -36,7 +36,7 @@ import { StripeProvider } from '@/providers/StripeProvider';
 import { Navbar } from '@/components/Navbar';
 
 export const metadata: Metadata = {
-  title: 'YeahRent - Peer-to-Peer Rental Marketplace',
+  title: 'Swoopings - Peer-to-Peer Rental Marketplace',
   description: 'Rent and share items with your community',
 };
 

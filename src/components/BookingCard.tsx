@@ -62,7 +62,7 @@ export default function BookingCard({
       case 'cancelled':
         return 'bg-red-100 text-red-800';
       case 'completed':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-brand-secondary text-brand-primary';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -135,7 +135,7 @@ export default function BookingCard({
         <div className="flex justify-between items-end">
           <div>
             <p className="text-xs font-medium text-gray-600 uppercase">Total Price</p>
-            <p className="text-2xl font-bold text-blue-600">${booking.total_price.toFixed(2)}</p>
+            <p className="text-2xl font-bold text-brand-primary">${booking.total_price.toFixed(2)}</p>
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@ export default function BookingCard({
             <button
               onClick={() => handleStatusChange('completed')}
               disabled={isUpdating}
-              className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="flex-1 bg-brand-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-brand-tertiary disabled:opacity-50 transition-colors"
             >
               Mark as Completed
             </button>

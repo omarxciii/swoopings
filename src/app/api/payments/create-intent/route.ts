@@ -68,9 +68,9 @@ export async function POST(request: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency,
-      description: description || 'YeahRent Booking Payment',
+      description: description || 'Swoopings Booking Payment',
       metadata: {
-        platform: 'yeahrent',
+        platform: 'swoopings',
         type: 'booking',
       },
     });

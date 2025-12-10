@@ -88,8 +88,8 @@ export default function ConversationItem({
     <button
       onClick={onClick}
       className={`w-full text-left p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors
-        ${isSelected ? 'bg-blue-50' : ''}
-        ${hasUnread ? 'bg-blue-50' : ''}
+        ${isSelected ? 'bg-brand-secondary' : ''}
+        ${hasUnread ? 'bg-brand-secondary' : ''}
       `}
     >
       <div className="flex gap-3">
@@ -115,7 +115,7 @@ export default function ConversationItem({
             <h3 className={`font-medium text-gray-900 truncate ${hasUnread ? 'font-semibold' : ''}`}>
               {otherUser?.username || 'Unknown User'}
             </h3>
-            <span className={`text-xs flex-shrink-0 ml-2 ${hasUnread ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>
+            <span className={`text-xs flex-shrink-0 ml-2 ${hasUnread ? 'font-semibold text-brand-primary' : 'text-gray-500'}`}>
               {lastMessage ? formatTime(lastMessage.created_at) : 'now'}
             </span>
           </div>
@@ -136,7 +136,7 @@ export default function ConversationItem({
         {/* Unread Badge */}
         {hasUnread && (
           <div className="flex-shrink-0 flex items-center">
-            <div className="bg-blue-600 text-white text-xs font-semibold rounded-full w-6 h-6 flex items-center justify-center">
+            <div className="bg-brand-accent text-white text-xs font-semibold rounded-full w-6 h-6 flex items-center justify-center">
               {unreadCount > 99 ? '99+' : unreadCount}
             </div>
           </div>

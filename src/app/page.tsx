@@ -37,9 +37,9 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white py-20">
+      <section className="bg-gradient-to-r from-brand-primary to-brand-tertiary text-white py-20">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">Welcome to YeahRent</h1>
+          <h1 className="text-5xl font-bold mb-6">Welcome to Swoopings</h1>
           <p className="text-xl mb-8 opacity-90">
             Rent items from your neighbors. Share what you own. Join the community.
           </p>
@@ -56,7 +56,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-blue-600"
+                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-brand-primary"
                 >
                   Browse Listings
                 </Link>
@@ -68,7 +68,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-blue-600"
+                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-brand-primary"
                 >
                   Browse Listings
                 </Link>

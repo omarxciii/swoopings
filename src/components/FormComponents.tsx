@@ -106,7 +106,7 @@ export function Button({
 
   const variantClasses = {
     primary:
-      'bg-brand-primary text-white hover:bg-blue-600 focus:ring-brand-primary disabled:bg-gray-400',
+      'bg-brand-primary text-white hover:bg-brand-tertiary focus:ring-brand-primary disabled:bg-gray-400',
     secondary:
       'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-400 disabled:bg-gray-300',
   };

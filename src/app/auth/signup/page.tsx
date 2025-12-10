@@ -115,8 +115,8 @@ export default function SignupPage() {
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">YeahRent</h1>
-          <p className="text-gray-600">Create your account</p>
+          <h1 className="text-3xl font-bold text-brand-primary mb-2">Swoopings</h1>
+          <p className="text-brand-primary">Create your account</p>
         </div>
 
         {/* Form */}

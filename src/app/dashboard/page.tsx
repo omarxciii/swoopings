@@ -47,8 +47,8 @@ export default function DashboardPage() {
                   <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0zm3 0a1 1 0 11-2 0 1 1 0 012 0zm3 0a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                 </svg>
                 <div>
-                  <p className="font-medium text-blue-900">Confirm your email</p>
-                  <p className="text-sm text-blue-800 mt-1">
+                  <p className="font-medium text-brand-primary">Confirm your email</p>
+                  <p className="text-sm text-brand-primary mt-1">
                     Check your inbox for a confirmation email. You&apos;ll be able to create and publish listings once confirmed.
                   </p>
                 </div>
