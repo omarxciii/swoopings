@@ -219,7 +219,7 @@ export const getListingsWithFilters = async (
       const wordStartRegex = new RegExp(`(^|\\s|[^a-z0-9])${searchTerm}`, 'i');
       
       results = results.filter(
-        (listing) =>
+        (listing: Listing) =>
           wordStartRegex.test(listing.title) ||
           wordStartRegex.test(listing.description)
       );
@@ -230,7 +230,7 @@ export const getListingsWithFilters = async (
       const cityTerm = city.trim().toLowerCase();
       const wordStartRegex = new RegExp(`(^|\\s|[^a-z0-9])${cityTerm}`, 'i');
       
-      results = results.filter((listing) =>
+      results = results.filter((listing: Listing) =>
         wordStartRegex.test(listing.city)
       );
     }
@@ -803,7 +803,7 @@ export const getListingAvailability = async (listingId: string): Promise<ApiResp
       throw error;
     }
     
-    const availableDays = (data || []).map(row => row.day_of_week).sort();
+    const availableDays = (data || []).map((row: { day_of_week: number }) => row.day_of_week).sort();
     console.warn(`%c[getListingAvailability] For listing ${listingId}: ${availableDays.length > 0 ? availableDays.join(',') : 'NONE (empty array!)'}`, 'background: orange; color: black; font-weight: bold;');
     if (data) {
       console.table(data);
@@ -1072,12 +1072,12 @@ export const getUnavailableDates = async (
       }
 
       // Check 2: Date is in blackout range
-      if (!isUnavailable && blackoutDates.some(b => dateString >= b.start_date && dateString <= b.end_date)) {
+      if (!isUnavailable && blackoutDates.some((b: BlackoutDate) => dateString >= b.start_date && dateString <= b.end_date)) {
         isUnavailable = true;
       }
 
       // Check 3: Date is already booked (check-in or within booking range)
-      if (!isUnavailable && bookings.some(b => dateString >= b.check_in_date && dateString < b.check_out_date)) {
+      if (!isUnavailable && bookings.some((b: { check_in_date: string; check_out_date: string }) => dateString >= b.check_in_date && dateString < b.check_out_date)) {
         isUnavailable = true;
       }
 
