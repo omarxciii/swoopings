@@ -126,7 +126,7 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Center Navigation (only for authenticated users) */}
+          {/* Center Navigation (only for authenticated users on desktop) */}
           {user && (
             <div className="hidden md:flex gap-8">
               <Link href="/listings" className="text-gray-700 hover:text-brand-primary">
@@ -174,9 +174,51 @@ export function Navbar() {
                 {/* Dropdown Menu */}
                 {isMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                    {/* Mobile navigation links */}
+                    <div className="md:hidden border-b border-gray-200">
+                      <Link
+                        href="/listings"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg relative"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Browse
+                      </Link>
+                      <Link
+                        href="/listings/create"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Create Listing
+                      </Link>
+                      <Link
+                        href="/messages"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 relative"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Messages
+                        {unreadCount > 0 && (
+                          <span className="absolute top-2 right-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            {unreadCount > 9 ? '9+' : unreadCount}
+                          </span>
+                        )}
+                      </Link>
+                      <Link
+                        href="/dashboard/bookings"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 relative"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Bookings
+                        {pendingBookingCount > 0 && (
+                          <span className="absolute top-2 right-4 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            {pendingBookingCount > 9 ? '9+' : pendingBookingCount}
+                          </span>
+                        )}
+                      </Link>
+                    </div>
+                    
                     <Link
                       href="/dashboard"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg md:first:rounded-t-lg"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Dashboard

@@ -73,7 +73,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 border-white text-white hover:bg-white hover:text-brand-primary"
+                  className="btn-secondary border-2 bg-brand-accent text-brand-primary hover:bg-brand-primary hover:text-brand-accent"
                 >
                   Browse Listings
                 </Link>
@@ -116,13 +116,13 @@ export default function Home() {
 
       {/* CTA Section for Non-Authenticated Users */}
       {!loading && !user && (
-        <section className="bg-gradient-to-r from-brand-accent to-orange-500 text-white py-16">
+        <section className="bg-brand-accent py-16">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to start sharing?</h2>
-            <p className="text-lg mb-8 opacity-90">
+            <h2 className="text-3xl font-bold mb-4 text-brand-primary">Ready to start sharing?</h2>
+            <p className="text-lg mb-8 text-brand-primary">
               Create an account to list your items and earn money
             </p>
-            <Link href="/auth/signup" className="inline-block bg-white text-orange-500 px-6 py-3 rounded-lg font-medium hover:bg-gray-100">
+            <Link href="/auth/signup" className="inline-block bg-brand-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-tertiary">
               Sign Up Now
             </Link>
           </div>
