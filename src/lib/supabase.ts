@@ -33,14 +33,31 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
 /**
- * Supabase client instance
- * - Used for all client-side operations
- * - Auth is handled automatically via the anon key
- * - RLS policies secure database access per user
+ * Lazy-initialize Supabase client
+ * This ensures the client is only created in the browser/runtime,
+ * not during build time when env vars may not be available
  */
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+let supabaseInstance: any = null;
+
+export const supabase = (() => {
+  if (typeof window === 'undefined') {
+    // Server-side: return a placeholder that will throw if used
+    return {
+      auth: { getSession: () => Promise.resolve({ data: { session: null } }) },
+      from: () => {
+        throw new Error('Supabase client should not be used server-side. Use API routes instead.');
+      },
+    };
+  }
+  
+  // Client-side: create the real client
+  if (!supabaseInstance) {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error('Missing Supabase environment variables');
+    }
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+  }
+  
+  return supabaseInstance;
+})();
