@@ -43,11 +43,17 @@ interface BookingRange {
   status: 'confirmed' | 'pending';
 }
 
+interface BlackoutPeriod {
+  start_date: string;
+  end_date: string;
+}
+
 interface DateRangePickerProps {
   onDateRangeChange: (checkIn: string, checkOut: string, totalPrice: number) => void;
   pricePerDay: number;
   unavailableDates?: string[];
   bookedDates?: BookingRange[];
+  blackoutDates?: BlackoutPeriod[];
   onBookingConflict?: (conflictMessage: string, suggestedCheckOut?: string) => void;
 }
 
@@ -56,6 +62,7 @@ export default function DateRangePicker({
   pricePerDay,
   unavailableDates = [],
   bookedDates = [],
+  blackoutDates = [],
   onBookingConflict,
 }: DateRangePickerProps) {
   const today = new Date();
@@ -92,6 +99,15 @@ export default function DateRangePicker({
       const startDate = booking.check_in_date;
       const endDate = booking.check_out_date;
       return dateStr >= startDate && dateStr < endDate;
+    });
+  };
+
+  const isDateBlackedOut = (date: Date): boolean => {
+    const dateStr = formatDateISO(date);
+    return blackoutDates.some(blackout => {
+      const startDate = blackout.start_date;
+      const endDate = blackout.end_date;
+      return dateStr >= startDate && dateStr <= endDate; // Include both start and end
     });
   };
 
@@ -237,6 +253,15 @@ export default function DateRangePicker({
             <span>Already booked by someone else</span>
           </div>
           <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-white border-2 border-gray-400 rounded relative overflow-hidden">
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 10 10">
+                <line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" strokeWidth="0.6" className="text-gray-400" />
+                <line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" strokeWidth="0.6" className="text-gray-400" />
+              </svg>
+            </div>
+            <span>Owner blackout (maintenance/personal use)</span>
+          </div>
+          <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-brand-primary rounded"></div>
             <span>Your check-in/check-out dates</span>
           </div>
@@ -287,6 +312,7 @@ export default function DateRangePicker({
             const isPast = date < today;
             const isPickupUnavailable = isDateUnavailableForPickup(date);
             const isBooked = isDateBooked(date);
+            const isBlackedOut = isDateBlackedOut(date);
             const isCheckIn = checkInDate && formatDateISO(date) === formatDateISO(checkInDate);
             const isCheckOut = checkOutDate && formatDateISO(date) === formatDateISO(checkOutDate);
             // Include dates in range regardless of pickup unavailability - we want to show the full range!
@@ -295,7 +321,7 @@ export default function DateRangePicker({
 
             // Can only click if: it's a valid pickup day AND (we haven't selected check-in yet OR it's after check-in for checkout)
             const isClickable = !isPast && !isPickupUnavailable && (!checkInDate || !checkOutDate || date > checkInDate);
-            const isDisabled = !isClickable || (isBooked && !isPartOfSelection);
+            const isDisabled = !isClickable || (isBooked && !isPartOfSelection) || (isBlackedOut && !isPartOfSelection);
 
             return (
               <button
@@ -308,10 +334,12 @@ export default function DateRangePicker({
                   ${isCheckIn || isCheckOut ? 'bg-brand-primary text-white border-2 border-brand-neutralgreen' : ''}
                   ${isInRange ? 'bg-brand-secondary text-brand-primary' : ''}
                   ${isPast || (isPickupUnavailable && !isPartOfSelection) ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : ''}
-                  ${!isPast && !isPartOfSelection && !isPickupUnavailable && !isBooked ? 'bg-white text-gray-900 hover:bg-brand-neutralgreen border border-gray-200' : ''}
+                  ${!isPast && !isPartOfSelection && !isPickupUnavailable && !isBooked && !isBlackedOut ? 'bg-white text-gray-900 hover:bg-brand-neutralgreen border border-gray-200' : ''}
                   ${isBooked && !isPartOfSelection ? 'bg-white text-gray-900 cursor-not-allowed border border-brand-accent' : ''}
                   ${isBooked && isPartOfSelection ? 'bg-brand-secondary text-brand-primary border-2 border-brand-accent' : ''}
-                  ${isDisabled && !isPast && !isPickupUnavailable && !isBooked ? 'cursor-not-allowed opacity-50' : ''}
+                  ${isBlackedOut && !isPartOfSelection ? 'bg-white text-gray-900 cursor-not-allowed border border-gray-400' : ''}
+                  ${isBlackedOut && isPartOfSelection ? 'bg-brand-secondary text-brand-primary border-2 border-gray-400' : ''}
+                  ${isDisabled && !isPast && !isPickupUnavailable && !isBooked && !isBlackedOut ? 'cursor-not-allowed opacity-50' : ''}
                 `}
               >
                 {day}
@@ -319,11 +347,22 @@ export default function DateRangePicker({
                 {isBooked && (
                   <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 40 40">
                     <defs>
-                      <pattern id={`diagonal-hatch-${day}`} patternUnits="userSpaceOnUse" width="4" height="4">
+                      <pattern id={`diagonal-hatch-booked-${day}`} patternUnits="userSpaceOnUse" width="4" height="4">
                         <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke={isPartOfSelection ? '#FF97AD' : '#FFD9E1'} strokeWidth="0.6" />
                       </pattern>
                     </defs>
-                    <rect width="100%" height="100%" fill={`url(#diagonal-hatch-${day})`} />
+                    <rect width="100%" height="100%" fill={`url(#diagonal-hatch-booked-${day})`} />
+                  </svg>
+                )}
+                {/* Diagonal lines pattern for blackout dates (darker gray) */}
+                {isBlackedOut && (
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 40 40">
+                    <defs>
+                      <pattern id={`diagonal-hatch-blackout-${day}`} patternUnits="userSpaceOnUse" width="4" height="4">
+                        <path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" stroke={isPartOfSelection ? '#6B7280' : '#9CA3AF'} strokeWidth="0.6" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill={`url(#diagonal-hatch-blackout-${day})`} />
                   </svg>
                 )}
               </button>

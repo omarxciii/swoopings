@@ -235,6 +235,13 @@ export default function DashboardListingsPage() {
                             >
                               View
                             </Link>
+                            <Link
+                              href={`/dashboard/listings/${listing.id}/edit`}
+                              className="flex-1 px-3 py-2 bg-brand-primary text-white rounded font-medium text-sm
+                                hover:bg-brand-tertiary transition-colors text-center"
+                            >
+                              Edit
+                            </Link>
                             <button
                               onClick={() => handleToggleStatus(listing)}
                               className="flex-1 px-3 py-2 bg-yellow-500 text-white rounded font-medium text-sm
@@ -274,6 +281,13 @@ export default function DashboardListingsPage() {
                           {/* Action Buttons */}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 rounded-lg transition-colors duration-200 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100">
                             <div className="flex gap-2 w-full">
+                              <Link
+                                href={`/dashboard/listings/${listing.id}/edit`}
+                                className="flex-1 px-3 py-2 bg-brand-primary text-white rounded font-medium text-sm
+                                  hover:bg-brand-tertiary transition-colors text-center"
+                              >
+                                Edit
+                              </Link>
                               <button
                                 onClick={() => handleToggleStatus(listing)}
                                 className="flex-1 px-3 py-2 bg-green-500 text-white rounded font-medium text-sm
@@ -311,15 +325,24 @@ export default function DashboardListingsPage() {
                           <div className="absolute top-2 left-2 bg-gray-400 text-white px-3 py-1 rounded-full text-xs font-medium">
                             Archived
                           </div>
-                          {/* Delete Button */}
+                          {/* Action Buttons */}
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 rounded-lg transition-colors duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                            <button
-                              onClick={() => setConfirmDeleteId(listing.id)}
-                              className="px-4 py-2 bg-red-500 text-white rounded font-medium text-sm
-                                hover:bg-red-600 transition-colors"
-                            >
-                              Delete
-                            </button>
+                            <div className="flex gap-2">
+                              <Link
+                                href={`/dashboard/listings/${listing.id}/edit`}
+                                className="px-4 py-2 bg-brand-primary text-white rounded font-medium text-sm
+                                  hover:bg-brand-tertiary transition-colors"
+                              >
+                                Edit
+                              </Link>
+                              <button
+                                onClick={() => setConfirmDeleteId(listing.id)}
+                                className="px-4 py-2 bg-red-500 text-white rounded font-medium text-sm
+                                  hover:bg-red-600 transition-colors"
+                              >
+                                Delete
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ))}
