@@ -55,25 +55,25 @@ export default function Home() {
               <>
                 <Link
                   href="/dashboard"
-                  className="btn-primary bg-white text-brand-primary hover:bg-gray-100"
+                  className="btn-primary bg-white text-brand-primary hover:bg-brand-accent"
                 >
                   Go to Dashboard
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 bg-brand-accent text-brand-primary hover:bg-brand-primary hover:text-brand-accent"
+                  className="btn-secondary bg-brand-accent text-brand-primary hover:bg-brand-secondary hover:text-brand-accent"
                 >
                   Browse Listings
                 </Link>
               </>
             ) : (
               <>
-                <Link href="/auth/signup" className="btn-primary bg-white text-brand-primary hover:bg-gray-100">
+                <Link href="/auth/signup" className="btn-primary bg-white text-brand-primary hover:bg-brand-secondary">
                   Get Started
                 </Link>
                 <Link
                   href="/listings"
-                  className="btn-secondary border-2 bg-brand-accent text-brand-primary hover:bg-brand-primary hover:text-brand-accent"
+                  className="btn-secondary bg-brand-accent text-brand-primary hover:bg-brand-secondary hover:text-brand-accent"
                 >
                   Browse Listings
                 </Link>

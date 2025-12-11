@@ -119,15 +119,19 @@ export default function SearchFilters({
       city: '',
       sortBy: 'newest',
     };
-    setEditingFilters(prev => ({ 
-      ...prev, 
+    const updatedFilters = { 
+      ...editingFilters, 
       [filterName]: defaultValues[filterName] 
-    }));
+    };
+    setEditingFilters(updatedFilters);
+    // Immediately apply the change
+    onChange(updatedFilters);
   };
 
   const clearAllFilters = () => {
+    // Only clear filter fields, preserve search
     const cleared: FilterState = {
-      search: '',
+      ...editingFilters,
       minPrice: '',
       maxPrice: '',
       city: '',
@@ -137,8 +141,8 @@ export default function SearchFilters({
     onChange(cleared);
   };
 
+  // Check if any filters (not search) are active
   const hasActiveFilters =
-    filters.search ||
     filters.minPrice ||
     filters.maxPrice ||
     filters.city ||
@@ -229,7 +233,6 @@ export default function SearchFilters({
             {hasActiveFilters && (
               <span className="ml-1 px-2 py-0.5 bg-brand-primary text-white text-xs font-semibold rounded-full">
                 {[
-                  filters.search,
                   filters.minPrice,
                   filters.maxPrice,
                   filters.city,
