@@ -43,7 +43,7 @@ export default function EditListingPage() {
   const router = useRouter();
   const params = useParams();
   const listingId = params.id as string;
-  const { user } = useAuthContext();
+  const { user, loading: authLoading } = useAuthContext();
   
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState(true);
@@ -62,12 +62,23 @@ export default function EditListingPage() {
   const [availableDays, setAvailableDays] = useState<number[]>([]);
 
   useEffect(() => {
-    loadListing();
-  }, [listingId]);
+    // Wait for auth to be ready before loading listing
+    if (!authLoading) {
+      loadListing();
+    }
+  }, [listingId, authLoading]);
 
   const loadListing = async () => {
     setLoading(true);
     setError(null);
+    
+    // Check if user is authenticated
+    if (!user) {
+      setError('You must be logged in to edit listings');
+      setLoading(false);
+      router.push('/auth/login');
+      return;
+    }
     
     // Load listing basic info
     const listingResponse = await getListing(listingId);
@@ -75,14 +86,9 @@ export default function EditListingPage() {
     if (listingResponse.success && listingResponse.data) {
       const listingData = listingResponse.data;
       
-      // Debug logging
-      console.log('Current user ID:', user?.id);
-      console.log('Listing owner ID:', listingData.owner_id);
-      console.log('User object:', user);
-      
       // Check if user owns this listing
-      if (listingData.owner_id !== user?.id) {
-        setError(`You do not have permission to edit this listing. Your ID: ${user?.id}, Owner ID: ${listingData.owner_id}`);
+      if (listingData.owner_id !== user.id) {
+        setError('You do not have permission to edit this listing');
         setLoading(false);
         return;
       }
@@ -173,7 +179,7 @@ export default function EditListingPage() {
     setTimeout(() => setSuccessMessage(null), 3000);
   };
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <ProtectedRoute>
         <main className="min-h-screen bg-gray-50">
