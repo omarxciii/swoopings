@@ -184,7 +184,7 @@ export default function BlackoutDateManager({ listingId, onUpdate }: BlackoutDat
       </div>
 
       {/* Add New Blackout Date Form */}
-      <form onSubmit={handleAddBlackoutDate} className="space-y-4 p-4 bg-brand-neutralgreen border border-brand-tertiary rounded-lg">
+      <div className="space-y-4 p-4 bg-brand-neutralgreen border border-brand-tertiary rounded-lg">
         <h4 className="font-medium text-brand-primary">Add Blackout Period</h4>
         
         {formError && (
@@ -247,14 +247,15 @@ export default function BlackoutDateManager({ listingId, onUpdate }: BlackoutDat
         </div>
         
         <button
-          type="submit"
+          type="button"
+          onClick={(e) => handleAddBlackoutDate(e)}
           disabled={isAdding}
           className="w-full sm:w-auto px-6 py-2 bg-brand-primary text-white rounded-lg font-medium
             hover:bg-brand-tertiary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isAdding ? 'Adding...' : 'Add Blackout Period'}
         </button>
-      </form>
+      </div>
 
       {/* Existing Blackout Dates List */}
       <div>
