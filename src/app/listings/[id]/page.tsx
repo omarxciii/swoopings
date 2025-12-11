@@ -43,7 +43,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { getListing, getPublicProfile, getOrCreateConversation, createBooking, getUnavailableDates, getListingBookings } from '@/utils/database';
+import { getListing, getPublicProfile, getOrCreateConversation, createBooking, getUnavailableDates, getListingBookings, getListingBlackoutDates } from '@/utils/database';
 import { useAuthContext } from '@/providers/AuthProvider';
 import DateRangePicker from '@/components/DateRangePicker';
 import { PaymentModal } from '@/components/PaymentModal';
@@ -71,6 +71,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [unavailableDates, setUnavailableDates] = useState<string[]>([]);
   const [bookedDates, setBookedDates] = useState<BookingRange[]>([]);
+  const [blackoutDates, setBlackoutDates] = useState<Array<{start_date: string; end_date: string}>>([]);
   const [isMessaging, setIsMessaging] = useState(false);
   
   // Booking states
@@ -138,6 +139,17 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
           }
         } catch (err) {
           console.error('Error fetching bookings:', err);
+        }
+
+        // Fetch blackout dates for the listing
+        try {
+          const blackoutRes = await getListingBlackoutDates(listingData.id);
+          if (blackoutRes.success && blackoutRes.data) {
+            console.log(`[ListingDetailPage] Blackout dates for listing ${listingData.id}:`, blackoutRes.data);
+            setBlackoutDates(blackoutRes.data);
+          }
+        } catch (err) {
+          console.error('Error fetching blackout dates:', err);
         }
 
         // Fetch owner profile
@@ -443,6 +455,7 @@ export default function ListingDetailPage({ params }: ListingDetailProps) {
                     pricePerDay={listing.price_per_day}
                     unavailableDates={unavailableDates}
                     bookedDates={bookedDates}
+                    blackoutDates={blackoutDates}
                     onDateRangeChange={handleDateRangeChange}
                   />
                   

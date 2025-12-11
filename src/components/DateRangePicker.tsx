@@ -126,20 +126,46 @@ export default function DateRangePicker({
     return { hasConflict: false };
   };
 
+  const hasBlackoutConflict = (start: Date, end: Date): { hasConflict: boolean } => {
+    let current = new Date(start);
+    while (current < end) {
+      const dateStr = formatDateISO(current);
+      const conflicting = blackoutDates.find(blackout => 
+        dateStr >= blackout.start_date && dateStr <= blackout.end_date
+      );
+      if (conflicting) {
+        return { hasConflict: true };
+      }
+      current.setDate(current.getDate() + 1);
+    }
+    return { hasConflict: false };
+  };
+
   const getLastAvailableCheckOut = (checkIn: Date): string | null => {
+    // Combine booked dates and blackout dates to find first conflict
     const bookedAfterCheckIn = bookedDates
       .filter(booking => {
         const bookingStart = parseISO(booking.check_in_date);
         return bookingStart > checkIn;
       })
-      .sort((a, b) => new Date(a.check_in_date).getTime() - new Date(b.check_in_date).getTime());
+      .map(booking => ({ date: parseISO(booking.check_in_date), type: 'booking' }));
+    
+    const blackoutsAfterCheckIn = blackoutDates
+      .filter(blackout => {
+        const blackoutStart = parseISO(blackout.start_date);
+        return blackoutStart > checkIn;
+      })
+      .map(blackout => ({ date: parseISO(blackout.start_date), type: 'blackout' }));
+    
+    const allConflicts = [...bookedAfterCheckIn, ...blackoutsAfterCheckIn]
+      .sort((a, b) => a.date.getTime() - b.date.getTime());
 
-    if (bookedAfterCheckIn.length === 0) {
+    if (allConflicts.length === 0) {
       return null;
     }
 
-    const firstBooked = parseISO(bookedAfterCheckIn[0].check_in_date);
-    const lastAvailable = new Date(firstBooked);
+    const firstConflict = allConflicts[0];
+    const lastAvailable = new Date(firstConflict.date);
     lastAvailable.setDate(lastAvailable.getDate() - 1);
     return formatDateISO(lastAvailable);
   };
@@ -163,13 +189,15 @@ export default function DateRangePicker({
         setConflictMessage(null);
         setSuggestedCheckOut(null);
       } else {
-        const conflict = hasBookingConflict(checkInDate, selectedDate);
+        const bookingConflict = hasBookingConflict(checkInDate, selectedDate);
+        const blackoutConflict = hasBlackoutConflict(checkInDate, selectedDate);
         
-        if (conflict.hasConflict) {
+        if (bookingConflict.hasConflict || blackoutConflict.hasConflict) {
+          const conflictType = blackoutConflict.hasConflict ? 'owner blackout periods' : 'existing bookings';
           const lastAvailable = getLastAvailableCheckOut(checkInDate);
           const message = lastAvailable 
-            ? `Cannot book during this period. There are existing bookings between ${formatDateISO(checkInDate)} and ${formatDateISO(selectedDate)}. You can book until ${lastAvailable}.`
-            : `Cannot book this date range due to existing bookings.`;
+            ? `Cannot book during this period. There are ${conflictType} between ${formatDateISO(checkInDate)} and ${formatDateISO(selectedDate)}. You can book until ${lastAvailable}.`
+            : `Cannot book this date range due to ${conflictType}.`;
           
           setConflictMessage(message);
           setSuggestedCheckOut(lastAvailable);
