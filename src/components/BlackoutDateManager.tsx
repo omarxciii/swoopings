@@ -207,7 +207,6 @@ export default function BlackoutDateManager({ listingId, onUpdate }: BlackoutDat
               className="w-full px-3 py-2 border border-gray-300 rounded-lg
                 focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none
                 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              required
             />
           </div>
           
@@ -224,7 +223,6 @@ export default function BlackoutDateManager({ listingId, onUpdate }: BlackoutDat
               className="w-full px-3 py-2 border border-gray-300 rounded-lg
                 focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none
                 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              required
             />
           </div>
         </div>
