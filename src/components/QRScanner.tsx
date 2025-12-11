@@ -187,7 +187,7 @@ export default function QRScanner({
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-6">
       <div>
-        <h3 className="text-xl font-semibold text-brand-primary mb-2">Scan Renter's QR Code</h3>
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">Scan Renter&rsquo;s QR Code</h3>
         <p className="text-sm text-gray-600">
           Ask the renter to show their booking QR code, then scan it to confirm handover
         </p>
@@ -224,7 +224,7 @@ export default function QRScanner({
             <p className="font-medium">Scanner Instructions:</p>
             <ul className="space-y-1 ml-4 list-disc">
               <li>Allow camera access when prompted</li>
-              <li>Point camera at renter's QR code</li>
+              <li>Point camera at renter&rsquo;s QR code</li>
               <li>Keep camera steady until scan completes</li>
               <li>Ensure good lighting for best results</li>
             </ul>

@@ -179,7 +179,7 @@ export default function QRDisplay({
           {/* Security Note */}
           <div className="bg-brand-lightpink border border-brand-accent rounded-lg p-3 text-xs text-gray-600">
             <strong className="text-brand-accent">Security:</strong> This QR code is unique to your booking. 
-            Don't share it with anyone except the owner at pickup.
+            Don&rsquo;t share it with anyone except the owner at pickup.
           </div>
         </>
       )}
