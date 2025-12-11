@@ -26,6 +26,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import type { Booking, Listing, Profile } from '@/types';
 
 interface BookingCardProps {
@@ -100,22 +101,35 @@ export default function BookingCard({
         </div>
 
         {/* User info */}
-        <div className="flex items-center gap-3">
-          {otherUser?.avatar_url ? (
-            <img
-              src={otherUser.avatar_url}
-              alt={otherUser.username}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
-              {otherUser?.username?.[0]?.toUpperCase()}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {otherUser?.avatar_url ? (
+              <img
+                src={otherUser.avatar_url}
+                alt={otherUser.username}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
+                {otherUser?.username?.[0]?.toUpperCase()}
+              </div>
+            )}
+            <div>
+              <p className="text-sm font-medium text-gray-900">{otherUser?.username || 'Unknown User'}</p>
+              <p className="text-xs text-gray-500">{isOwner ? 'Renter' : 'Owner'}</p>
             </div>
-          )}
-          <div>
-            <p className="text-sm font-medium text-gray-900">{otherUser?.username || 'Unknown User'}</p>
-            <p className="text-xs text-gray-500">{isOwner ? 'Renter' : 'Owner'}</p>
           </div>
+          
+          {/* Handover status badge */}
+          {booking.handover_confirmed_at ? (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Handed Over ✓
+            </span>
+          ) : booking.status === 'confirmed' ? (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+              Pending Handover
+            </span>
+          ) : null}
         </div>
       </div>
 
@@ -142,45 +156,57 @@ export default function BookingCard({
 
       {/* Action buttons */}
       {onStatusChange && (
-        <div className="px-6 py-4 bg-gray-50 flex gap-3">
-          {isOwner && booking.status === 'pending' && (
-            <>
+        <div className="px-6 py-4 bg-gray-50">
+          <div className="flex gap-3 mb-3">
+            {isOwner && booking.status === 'pending' && (
+              <>
+                <button
+                  onClick={() => handleStatusChange('confirmed')}
+                  disabled={isUpdating}
+                  className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors"
+                >
+                  Confirm Booking
+                </button>
+                <button
+                  onClick={() => handleStatusChange('cancelled')}
+                  disabled={isUpdating}
+                  className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
+                >
+                  Decline
+                </button>
+              </>
+            )}
+
+            {booking.status === 'confirmed' && isOngoing && (
               <button
-                onClick={() => handleStatusChange('confirmed')}
+                onClick={() => handleStatusChange('completed')}
                 disabled={isUpdating}
-                className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 disabled:opacity-50 transition-colors"
+                className="flex-1 bg-brand-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-brand-tertiary disabled:opacity-50 transition-colors"
               >
-                Confirm Booking
+                Mark as Completed
               </button>
-              <button
-                onClick={() => handleStatusChange('cancelled')}
-                disabled={isUpdating}
-                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
-              >
-                Decline
-              </button>
-            </>
-          )}
+            )}
 
-          {booking.status === 'confirmed' && isOngoing && (
-            <button
-              onClick={() => handleStatusChange('completed')}
-              disabled={isUpdating}
-              className="flex-1 bg-brand-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-brand-tertiary disabled:opacity-50 transition-colors"
-            >
-              Mark as Completed
-            </button>
-          )}
+            {booking.status === 'pending' && (
+              <p className="text-sm text-gray-600 py-2">
+                {isOwner ? 'Waiting for you to confirm' : 'Waiting for owner to confirm'}
+              </p>
+            )}
 
-          {booking.status === 'pending' && (
-            <p className="text-sm text-gray-600 py-2">
-              {isOwner ? 'Waiting for you to confirm' : 'Waiting for owner to confirm'}
-            </p>
-          )}
-
-          {booking.status === 'cancelled' && (
-            <p className="text-sm text-red-600 py-2">This booking was cancelled</p>
-          )}
+            {booking.status === 'cancelled' && (
+              <p className="text-sm text-red-600 py-2">This booking was cancelled</p>
+            )}
+          </div>
+          
+          {/* View Details Button */}
+          <Link
+            href={`/dashboard/bookings/${booking.id}`}
+            className="block w-full text-center py-2 px-4 bg-brand-neutralgreen text-brand-primary rounded-lg font-medium hover:opacity-90 transition-opacity"
+          >
+            View Details
+            {isOwner && !booking.handover_confirmed_at && booking.status === 'confirmed' && ' & Scan QR'}
+            {!isOwner && !booking.handover_confirmed_at && booking.status === 'confirmed' && ' & Show QR'}
+          </Link>
         </div>
       )}
 

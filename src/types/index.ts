@@ -74,6 +74,9 @@ export interface Booking {
   total_price: number; // Price in cents (stored as integer in DB, convert to dollars)
   status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Booking lifecycle
   payment_intent_id: string | null; // Stripe payment intent ID
+  qr_secret: string | null; // Secret token for QR verification
+  handover_confirmed_at: string | null; // Timestamp of item handover
+  handover_confirmed_by: string | null; // User ID who confirmed (owner)
   created_at: string;
   updated_at: string;
 }

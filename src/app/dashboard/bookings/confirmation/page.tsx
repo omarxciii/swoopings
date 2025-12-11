@@ -45,6 +45,8 @@ interface BookingConfirmation {
   total_price: number;
   status: string;
   created_at: string;
+  qr_secret: string | null;
+  handover_confirmed_at: string | null;
 }
 
 function ConfirmationContent() {
@@ -260,7 +262,7 @@ function ConfirmationContent() {
               <span className="flex-shrink-0 w-6 h-6 bg-brand-primary text-white rounded-full flex items-center justify-center text-sm font-semibold">
                 3
               </span>
-              <span>On check-in date, collect the item following agreed arrangements</span>
+              <span>Once confirmed, view your booking to access your QR code for pickup verification</span>
             </li>
             <li className="flex gap-3">
               <span className="flex-shrink-0 w-6 h-6 bg-brand-primary text-white rounded-full flex items-center justify-center text-sm font-semibold">

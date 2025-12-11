@@ -385,12 +385,15 @@ export const getUserBookingsAsOwner = async (userId: string): Promise<ApiRespons
  * Create a booking
  */
 export const createBooking = async (
-  booking: Omit<Booking, 'id' | 'created_at' | 'updated_at'>
+  booking: Omit<Booking, 'id' | 'created_at' | 'updated_at' | 'qr_secret' | 'handover_confirmed_at' | 'handover_confirmed_by'>
 ): Promise<ApiResponse<Booking>> => {
   try {
+    // Generate QR secret for handover verification
+    const qrSecret = generateQRSecret();
+    
     const { data, error } = await supabase
       .from('bookings')
-      .insert([booking])
+      .insert([{ ...booking, qr_secret: qrSecret }])
       .select()
       .single();
 
@@ -1092,5 +1095,89 @@ export const getUnavailableDates = async (
   } catch (error) {
     console.error('Error getting unavailable dates:', error);
     return { success: false, data: null, error: 'Failed to get unavailable dates' };
+  }
+};
+
+/**
+ * Generate QR secret for a booking
+ * Called when booking is created to generate unique verification token
+ */
+export const generateQRSecret = (): string => {
+  // Generate a random UUID as secret
+  return crypto.randomUUID();
+};
+
+/**
+ * Confirm handover of item from owner to renter
+ * Called when owner scans QR code at pickup
+ */
+export const confirmHandover = async (
+  bookingId: string,
+  qrSecret: string,
+  confirmedBy: string
+): Promise<ApiResponse<Booking>> => {
+  try {
+    // First verify the QR secret matches
+    const { data: booking, error: fetchError } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('id', bookingId)
+      .single();
+
+    if (fetchError) throw fetchError;
+    if (!booking) throw new Error('Booking not found');
+    if (booking.qr_secret !== qrSecret) throw new Error('Invalid QR code');
+    if (booking.handover_confirmed_at) throw new Error('Handover already confirmed');
+
+    // Update booking with handover confirmation
+    const { data, error } = await supabase
+      .from('bookings')
+      .update({
+        handover_confirmed_at: new Date().toISOString(),
+        handover_confirmed_by: confirmedBy,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', bookingId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { success: true, data: data as Booking, error: null };
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('Error confirming handover:', error);
+    return { success: false, data: null, error: err.message || 'Failed to confirm handover' };
+  }
+};
+
+/**
+ * Get handover status for a booking
+ */
+export const getHandoverStatus = async (bookingId: string): Promise<ApiResponse<{
+  confirmed: boolean;
+  confirmedAt: string | null;
+  confirmedBy: string | null;
+}>> => {
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('handover_confirmed_at, handover_confirmed_by')
+      .eq('id', bookingId)
+      .single();
+
+    if (error) throw error;
+
+    return {
+      success: true,
+      data: {
+        confirmed: !!data.handover_confirmed_at,
+        confirmedAt: data.handover_confirmed_at,
+        confirmedBy: data.handover_confirmed_by
+      },
+      error: null
+    };
+  } catch (error) {
+    console.error('Error getting handover status:', error);
+    return { success: false, data: null, error: 'Failed to get handover status' };
   }
 };

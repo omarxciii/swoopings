@@ -131,6 +131,9 @@ CREATE TABLE IF NOT EXISTS bookings (
   total_price DECIMAL(10,2) NOT NULL, -- Price in dollars
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'cancelled', 'completed')),
   payment_intent_id TEXT, -- Stripe payment_intent.id
+  qr_secret TEXT, -- Secret token for QR code verification (UUID)
+  handover_confirmed_at TIMESTAMP WITH TIME ZONE, -- When item was handed over
+  handover_confirmed_by UUID REFERENCES profiles(id), -- Who confirmed the handover (should be owner)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

@@ -85,6 +85,9 @@ export async function GET(
         status,
         payment_intent_id,
         created_at,
+        qr_secret,
+        handover_confirmed_at,
+        handover_confirmed_by,
         listing: listings (
           id,
           title,
@@ -102,10 +105,10 @@ export async function GET(
       );
     }
 
-    // Fetch owner details separately
+    // Fetch owner and renter details separately
     const { data: ownerData, error: ownerError } = await authenticatedSupabase
       .from('profiles')
-      .select('username, full_name, avatar_url')
+      .select('username, full_name, avatar_url, email')
       .eq('id', booking.owner_id)
       .single();
 
@@ -117,13 +120,28 @@ export async function GET(
       );
     }
 
-    // Transform the response to include owner data
+    const { data: renterData, error: renterError } = await authenticatedSupabase
+      .from('profiles')
+      .select('username, full_name, avatar_url, email')
+      .eq('id', booking.renter_id)
+      .single();
+
+    if (renterError) {
+      console.error('Error fetching renter:', renterError);
+      return NextResponse.json(
+        { error: 'Unable to fetch renter details' },
+        { status: 500 }
+      );
+    }
+
+    // Transform the response to include owner and renter data
     const transformedBooking = {
       ...booking,
       listing: {
         ...booking.listing,
         owner: ownerData,
       },
+      renter: renterData,
     };
 
     return NextResponse.json(transformedBooking);
