@@ -75,9 +75,14 @@ export default function EditListingPage() {
     if (listingResponse.success && listingResponse.data) {
       const listingData = listingResponse.data;
       
+      // Debug logging
+      console.log('Current user ID:', user?.id);
+      console.log('Listing owner ID:', listingData.owner_id);
+      console.log('User object:', user);
+      
       // Check if user owns this listing
       if (listingData.owner_id !== user?.id) {
-        setError('You do not have permission to edit this listing');
+        setError(`You do not have permission to edit this listing. Your ID: ${user?.id}, Owner ID: ${listingData.owner_id}`);
         setLoading(false);
         return;
       }
